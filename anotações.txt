@@ -1,0 +1,9 @@
+Para rodar o servidor do back-end vá na pasta server e rode o comando:
+- yarn dev:server
+
+Para limpar a base de dados delete o arquivo database.sqlite dentro da pasta server/src/database
+
+Para recriar e repopular a base de dados com os Default items execute os comandos:
+- yarn knex:migrate
+- yarn knex:seed
+
