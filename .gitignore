@@ -38,4 +38,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-server/uploads
+server/uploads/*.png
+server/uploads/*.jpg
+server/uploads/*.jpeg
+
+*.sqlite
+
+!uploads/*.svg
