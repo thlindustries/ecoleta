@@ -18,6 +18,7 @@ interface Item {
 interface Points {
   id: number;
   image: string;
+  image_url: string
   name: string;
   email: string;
   whatsapp: string;
@@ -41,9 +42,6 @@ const Points = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const params = route.params as Params;
-
-  console.log(params);
-
 
   useEffect(() => {
     api.get('items').then(response => {
@@ -103,6 +101,7 @@ const Points = () => {
     }
   }
 
+  points.map(item => console.log(item.image_url));
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -136,7 +135,7 @@ const Points = () => {
                     key={String(item.id)}
                   >
                     <View style={styles.mapMarkerContainer}>
-                      <Image style={styles.mapMarkerImage} source={{ uri: item.image }} />
+                      <Image style={styles.mapMarkerImage} source={{ uri: `${item.image_url}` }} />
                       <Text style={styles.mapMarkerTitle}>{item.name}</Text>
                     </View>
                   </Marker>

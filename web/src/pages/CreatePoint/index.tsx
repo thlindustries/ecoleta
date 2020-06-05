@@ -8,10 +8,13 @@ import './styles.css';
 import Dados from './pageComponents/dados';
 import Endereco from './pageComponents/endereco';
 import Items from './pageComponents/items';
+import Dropzone from '../../components/Dropzone';
+
 import api from '../../services/Api';
 
 const CreatePoint: React.FC = () => {
   const [data, setData] = useState({});
+  const [selectedFile, setSelectedFile] = useState<File>();
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
@@ -26,16 +29,22 @@ const CreatePoint: React.FC = () => {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const newData = {
-      name: formData.name,
-      email: formData.email,
-      whatsapp: formData.whatsapp,
-      uf: selectedUf,
-      city: selectedCity,
-      latitude: selectedPosition[0],
-      longitude: selectedPosition[1],
-      items: selectedItems
+
+    const newData = new FormData();
+
+    newData.append('name', formData.name);
+    newData.append('email', formData.email);
+    newData.append('whatsapp', formData.whatsapp);
+    newData.append('uf', selectedUf);
+    newData.append('city', selectedCity);
+    newData.append('latitude', String(selectedPosition[0]));
+    newData.append('longitude', String(selectedPosition[1]));
+    newData.append('items', selectedItems.join(','));
+
+    if (selectedFile) {
+      newData.append('image', selectedFile);
     }
+
     setData(newData)
 
     await api.post('points', newData);
@@ -57,6 +66,8 @@ const CreatePoint: React.FC = () => {
 
       <form onSubmit={handleSubmit} action="">
         <h1>Cadastro do <br /> ponto de coleta</h1>
+
+        <Dropzone onFileUploaded={setSelectedFile} />
 
         <Dados
           formData={formData}
