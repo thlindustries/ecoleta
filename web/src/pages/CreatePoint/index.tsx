@@ -1,20 +1,22 @@
 import React, { FormEvent, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiXCircle, FiAirplay, FiAlertOctagon, FiAlertTriangle, FiCheckCircle } from 'react-icons/fi';
 import './styles.css';
 
 /* Componentes */
 import Dados from './pageComponents/dados';
 import Endereco from './pageComponents/endereco';
 import Items from './pageComponents/items';
-import Dropzone from '../../components/Dropzone';
+import Dropzone from '../../components/Mols/Dropzone';
+import Overlay from '../../components/Atoms/Overlay';
 
+/* API */
 import api from '../../services/Api';
 
 const CreatePoint: React.FC = () => {
-  const [data, setData] = useState({});
   const [selectedFile, setSelectedFile] = useState<File>();
+  const [open, setOpen] = useState(false);
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
@@ -25,10 +27,14 @@ const CreatePoint: React.FC = () => {
     whatsapp: ''
   });
 
+  const [status, setStatus] = useState(true);
   const history = useHistory();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
+
+    setOpen(true);
 
     const newData = new FormData();
 
@@ -45,19 +51,26 @@ const CreatePoint: React.FC = () => {
       newData.append('image', selectedFile);
     }
 
-    setData(newData)
+    try {
+      setStatus(true);
+      setOpen(true);
+      await api.post('points', newData);
 
-    await api.post('points', newData);
+      setTimeout(() => {
 
-    history.push('/');
-
-    alert('Ponto de coleta criado com sucesso!');
+      }, 4000);
+    }
+    catch (err) {
+      setStatus(false);
+      setOpen(true);
+      console.log(err.message)
+    }
   }
 
   return (
     <div id="page-create-point">
       <header>
-        <img src={logo} alt="Ecoleta" />
+        <img className="createPointLogo" onClick={() => history.goBack()} src={logo} alt="Ecoleta" />
         <Link to="/">
           <FiArrowLeft />
           Voltar para a página inicial
@@ -85,9 +98,16 @@ const CreatePoint: React.FC = () => {
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
         />
-
-        <button type="submit">Cadastrar ponto de coleta</button>
+        <button className='page-create-point-button' type="submit">Cadastrar ponto de coleta</button>
       </form>
+      <Overlay
+        Icon={status ? FiCheckCircle : FiXCircle}
+        text={status ? 'Cadastro concluído!' : 'Erro ao cadastrar ponto, corrija as informações!'}
+        open={open}
+        setOpen={setOpen}
+        setClose={() => history.goBack()}
+        status={status}
+      />
     </div >
   );
 }

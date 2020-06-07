@@ -3,7 +3,7 @@ import { celebrate, Joi } from 'celebrate';
 const inputValidation = () => celebrate({
   body: Joi.object().keys({
     name: Joi.string().required(),
-    email: Joi.string().required().email,
+    email: Joi.string().required().email(),
     whatsapp: Joi.number().required(),
     latitude: Joi.number().required(),
     longitude: Joi.number().required(),

@@ -7,7 +7,7 @@
 
 #page-create-point header {
   margin-top: 48px;
-
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -145,7 +145,7 @@
   margin-bottom: 24px;
 }
 
-#page-create-point form button {
+.page-create-point-button {
   width: 260px;
   height: 56px;
   background: var(--primary-color);
@@ -160,8 +160,14 @@
   cursor: pointer;
 }
 
-#page-create-point form button:hover {
+.page-create-point-button:hover {
   background: #2FB86E;
+}
+
+.createPointLogo {
+  cursor: pointer;
+  border-radius: 8px;
+  float: left;
 }
 
 .items-grid {

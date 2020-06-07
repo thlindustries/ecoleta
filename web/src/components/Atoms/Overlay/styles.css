@@ -1,0 +1,58 @@
+.overlayDiv {
+  justify-content: center;
+  align-items: center;
+  color: black;
+  border: 2px dashed;
+  z-index: 7000;
+  position: fixed;
+  display: flex;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(0,0,0,0.3);
+}
+
+#finished {
+  width:100%;
+  height:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position:fixed;
+  top: 0;
+  left: 0;
+  z-index:10000;
+  background: #0E0A14;
+  opacity: 0.95;
+  animation: backgroundScale 1.5s normal;
+}
+#finished h1 {
+  color:#fff;
+  margin-top: 24px;
+  font-size: 32px
+}
+.svg{
+  animation: mymove 3.0s normal;
+}
+
+@keyframes mymove {
+  from {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes backgroundScale {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

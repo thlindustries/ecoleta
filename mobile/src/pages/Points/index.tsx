@@ -101,7 +101,6 @@ const Points = () => {
     }
   }
 
-  points.map(item => console.log(item.image_url));
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
